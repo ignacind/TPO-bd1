@@ -4,7 +4,7 @@ go
 Create database TPO_GOTdb
 use TPO_GOTdb
 go
-
+--PRUEBA
 Create table Reino (
 	nombreReino varchar(20) not null unique,
 	idReino int primary key,
