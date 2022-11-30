@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 ﻿use master
+=======
+﻿<<<<<<< HEAD
+use master
+>>>>>>> bdef2b3299fa79366663215c99ceb73609b8cd67
 go 
 
 Create database TPO_GOTdb
@@ -150,7 +155,11 @@ insert into Profesion(nombre, tipoProfesion, nombreMaestre,fkPersonaje,edadProfe
 	('Erudición', 'Consejero', null, null, null),
 	('Venta', 'Vendedor', null, null, null),
 	('Cientifico', 'Ciencia', null, null, null),
+<<<<<<< HEAD
 	('Jefe de Guerra', 'Realeza', null, 2003, 18),
+=======
+	('Jefe de Guerra', 'Realeza', null, null, null),
+>>>>>>> bdef2b3299fa79366663215c99ceb73609b8cd67
 	('Señor', 'Realeza', null, 2001, 16)
 
 
