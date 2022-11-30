@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-﻿use master
-=======
-﻿<<<<<<< HEAD
-use master
->>>>>>> bdef2b3299fa79366663215c99ceb73609b8cd67
-go 
 
 Create database TPO_GOTdb
 use TPO_GOTdb

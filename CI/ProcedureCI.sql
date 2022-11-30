@@ -1,25 +1,19 @@
--- ================================================
--- Template generated from Template Explorer using:
--- Create Procedure (New Menu).SQL
---
--- Use the Specify Values for Template Parameters 
--- command (Ctrl-Shift-M) to fill in the parameter 
--- values below.
---
--- This block of comments will not be included in
--- the definition of the procedure.
--- ================================================
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 Go
+--CREATE
 CREATE PROCEDURE INSERTA_DOCENTE
 	@dni int,
 	@nombre varchar(30),
 	@apellido varchar(30),
 	@domicilio varchar(40),
 	@fechaNacimiento date, 
-	@materiaClases varchar(100)
+	@materiaClases varchar(100),
+	@fkServidor float,
+	@fkComputadora int,
+	@fkEscuela int
+
 AS BEGIN
 INSERT INTO Docente 
 	(
@@ -28,7 +22,10 @@ INSERT INTO Docente
 	apellido,
 	domicilio,
 	fechaNacimiento,
-	materiaClases
+	materiaClases,
+	fkServidor,
+	fkComputadora,
+	fkEscuela
 	)
 	VALUES
 	(
@@ -37,11 +34,14 @@ INSERT INTO Docente
 	@apellido,
 	@domicilio,
 	@fechaNacimiento,
-	@materiaClases
+	@materiaClases,
+	@fkServidor,
+	@fkComputadora,
+	@fkEscuela
 	)
 END
 EXEC INSERTA_DOCENTE
-321432, 'Suarez', 'Garcia', 'San Miguel 12', '2001/02/05', Quimica
+321432, 'Suarez', 'Garcia', 'San Miguel 12', '2001/02/05', Quimica, 123.75,1 ,1
 Go
 CREATE PROCEDURE INSERTA_COMPUTADORA
 	@id int,
@@ -59,7 +59,7 @@ INSERT INTO Computadora
 	)
 end
 EXEC INSERTA_COMPUTADORA
-8, 40
+9, 40
 Go
 CREATE PROCEDURE INSERTA_DISCORIGIDO
 	@fkDiscoRigido int,
@@ -136,7 +136,7 @@ INSERT INTO Escuela
 	@nombreDirector
 	)
 end
-EXEC INSERTA_DOCENTE
+EXEC INSERTA_ESCUELA
 7, 450, 'Quilmes', Tecnico, 'San Miguel 60', Pedro
 Go
 CREATE PROCEDURE INSERTA_TALLER
@@ -166,7 +166,7 @@ INSERT INTO Taller
 	@recursosNecesarios
 	)
 end
-EXEC INSERTA_DOCENTE
+EXEC INSERTA_TALLER
 232423, 1, 'Algebra I', 500, '2022/02/08', 'Calculadora Compas'
 Go
 CREATE PROCEDURE INSERTA_SERVIDOR
@@ -199,23 +199,26 @@ INSERT INTO Servidor
 	@reemplazoFinal
 	)
 end
-EXEC INSERTA_DOCENTE
-123.65, 'Benitez', 23, 'Floro', 'Knoteles', ''
+EXEC INSERTA_SERVIDOR
+123.65, 'Benitez', 23, 'Floro', 'Knoteles', null, null
 
 
---READ
+
 Go
+--READ
 CREATE PROCEDURE READ_DOCENTE
 AS
 SELECT * from Docente
+
 EXEC READ_DOCENTE
+
 
 Go
 CREATE PROCEDURE READ_COMPUTADORA
 @memoria int
 AS
 SELECT id from Computadora
-where @memoria > 20
+where @memoria < 20
 EXEC READ_COMPUTADORA 13
 
 Go
@@ -258,3 +261,109 @@ AS
 SELECT * from Servidor
 EXEC READ_SERVIDOR
 
+
+Go
+--DELETE
+CREATE PROCEDURE ELIMINA_DOCENTE
+	@dni int,
+	@nombre varchar(30),
+	@apellido varchar(30),
+	@domicilio varchar(40),
+	@fechaNacimiento date, 
+	@materiaClases varchar(100),
+	@fkServidor float,
+	@fkComputadora int,
+	@fkEscuela int
+AS BEGIN
+DELETE FROM Docente 
+Where dni = @dni
+end
+select * from Docente
+
+EXEC ELIMINA_DOCENTE
+321432, 'Suarez', 'Garcia', 'San Miguel 12', '2001/02/05', Quimica, 123.75,1 ,1
+Go
+
+CREATE PROCEDURE ELIMINA_COMPUTADORA
+	@id int
+AS BEGIN
+DELETE FROM Computadora 
+Where @id > 10
+end
+EXEC ELIMINA_COMPUTADORA
+11
+Go
+CREATE PROCEDURE ELIMINA_DISCORIGIDO
+	@marca varchar(30),
+	@capacidad int
+AS
+Begin
+Delete from DiscoRigido
+where @marca = 'Nike' or @capacidad > 10
+END
+EXEC ELIMINA_DISCORIGIDO 
+'Nike', 8
+Go
+CREATE PROCEDURE ELIMINA_APLICACION
+	@fkAplicaciones int,
+	@capacidadDisco int
+AS BEGIN
+Delete From Aplicaciones
+Where @fkAplicaciones = 1 and @capacidadDisco between 5 AND 20
+end
+EXEC ELIMINA_APLICACION
+3, 12
+Go
+CREATE PROCEDURE ELIMINA_ESCUELA
+	@localidad varchar(30)
+AS BEGIN
+Delete from Escuela 
+where @localidad = 'Quilmes'
+end
+EXEC ELIMINA_ESCUELA
+'Quilmes'
+Go
+CREATE PROCEDURE ELIMINA_TALLER
+	@fkDocente int,
+	@fkEscuela int,
+	@nombre varchar(30),
+	@duracion float, 
+	@fechaRealizacion date,
+	@recursosNecesarios varchar(40)
+AS BEGIN
+Delete from Taller
+where fkDocente = @fkDocente
+AND fkEscuela = @fkEscuela
+AND nombre = @nombre
+AND duracion = @duracion
+AND fechaRealizacion = @fechaRealizacion
+AND recursosNecesarios = @recursosNecesarios
+end
+EXEC ELIMINA_TALLER
+232423, 1, 'Algebra I', 500, '2022/02/08', 'Calculadora Compas'
+
+Go 
+CREATE PROCEDURE ELIMINA_SERVIDOR
+	@nombre varchar(30)
+AS BEGIN
+Delete from Servidor 
+where @nombre = 'Omega'
+end
+EXEC ELIMINA_SERVIDOR
+'Omega'
+
+
+go
+CREATE PROCEDURE UPDATE_DOCENTE
+	
+AS BEGIN
+declare @dni int
+select @dni from Docente
+If (@dni > 99999999)
+PRINT 'EL DNI ES MAYOR A 99999999 NO SE ACTUALIZA' + dni
+else 
+update Docente
+set nombre = 'Rodolfo'
+where nombre = 'Maria'
+END
+EXEC UPDATE_DOCENTE
