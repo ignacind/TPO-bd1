@@ -3,6 +3,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 Go
 --CREATE
+
 CREATE PROCEDURE INSERTA_DOCENTE
 	@dni int,
 	@nombre varchar(30),
@@ -355,15 +356,35 @@ EXEC ELIMINA_SERVIDOR
 
 go
 CREATE PROCEDURE UPDATE_DOCENTE
-	
+@dni int
 AS BEGIN
-declare @dni int
-select @dni from Docente
+
 If (@dni > 99999999)
-PRINT 'EL DNI ES MAYOR A 99999999 NO SE ACTUALIZA' + dni
+PRINT 'EL DNI ES MAYOR A 99999999 NO SE ACTUALIZA' + @dni
 else 
 update Docente
 set nombre = 'Rodolfo'
 where nombre = 'Maria'
 END
-EXEC UPDATE_DOCENTE
+
+select * from Docente
+EXEC UPDATE_DOCENTE 232423
+
+
+
+Go
+CREATE PROCEDURE UPDATE_COMPUTADORA
+@id int
+AS BEGIN
+declare @memoria int = (select memoria from Computadora where id = @id)
+
+--Duplicar memoria
+update Computadora
+set @memoria =
+case 
+when @memoria <= 20 then @memoria*2
+when @memoria <= 10 then @memoria*3
+else 1
+end
+
+exec UPDATE_COMPUTADORA 3
