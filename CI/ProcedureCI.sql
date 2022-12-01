@@ -380,11 +380,30 @@ declare @memoria int = (select memoria from Computadora where id = @id)
 
 --Duplicar memoria
 update Computadora
-set @memoria =
+set memoria =
 case 
-when @memoria <= 20 then @memoria*2
-when @memoria <= 10 then @memoria*3
-else 1
+when @memoria <= 20 then memoria*2
+when @memoria <= 30 then memoria*1.5
+else memoria
+end
+where id = @id
+
 end
 
-exec UPDATE_COMPUTADORA 3
+select * from Computadora
+exec UPDATE_COMPUTADORA 2
+drop procedure UPDATE_COMPUTADORA
+
+go
+create procedure UPDATE_TALLER
+@fkDocente int
+as begin
+
+update Taller
+set nombre = 'Taller cambio'
+where fkDocente = @fkDocente
+end
+
+select * from taller
+exec UPDATE_TALLER 978754
+drop procedure UPDATE_TALLER
