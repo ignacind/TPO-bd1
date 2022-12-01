@@ -260,3 +260,78 @@ INSERT INTO Profesion
 END
 EXEC INSERTA_PROFESION
 'Ingeniero', 'Exacta', 'Luis', 1, 10
+
+Go
+CREATE PROCEDURE READ_REINO
+AS
+Select * from Reino
+
+EXEC READ_REINO 
+
+
+Go
+CREATE PROCEDURE READ_GUERRA
+	@idGuerra int
+AS
+Select lugar, anio from Guerra
+where @idGuerra > 10
+EXEC READ_GUERRA 13
+
+
+Go
+CREATE PROCEDURE READ_CASA
+	@idCasa int
+AS
+Select distinct c.nombre from Casa c
+inner join Personaje
+On @idCasa = Personaje.fkCasa 
+
+EXEC READ_CASA 2
+
+Go
+Create procedure DELETE_ESPECIE
+	@idEspecie int
+as begin
+delete from Especie
+where idEspecie = @idEspecie
+end
+
+exec DELETE_ESPECIE 102
+
+
+go
+create procedure DELETE_CASTILLO
+	@idCastillo int
+as begin
+delete from Castillo
+where idCastillo = @idCastillo
+end
+
+exec DELETE_CASTILLO 12005
+
+go
+create procedure UPDATE_RELACIONFAMILIAR
+	@idFamilia int
+as begin
+
+update relacionFamiliar
+set padre = 'Rhaegar Targaryen',madre = 'Lyanna Stark' --Spoiler
+where idFamilia = @idFamilia
+end
+
+
+exec UPDATE_RELACIONFAMILIAR 3001
+
+go
+create procedure UPDATE_PERSONAJE
+	@idPersonaje int
+as begin
+
+update Personaje
+set estado = 'muerto'
+where idPersonaje = @idPersonaje
+end
+
+exec UPDATE_PERSONAJE 2003
+
+select * from Personaje
